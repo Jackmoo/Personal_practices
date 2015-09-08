@@ -1,0 +1,9 @@
+parseifstat.py
+    - parse command 'ifstat' and log it
+
+plot.py
+    - DEPENDENCY:
+        - matplotlib
+    - need second argv => log file name
+    - parse the log and output a plot
+
