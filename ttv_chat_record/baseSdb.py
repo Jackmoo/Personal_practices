@@ -3,13 +3,15 @@
 
 import sqlite3
 
-class BaseSdb:
+class BaseSdb(object):
     '''
     SQLlite db base, generally 5 column as 
     '''
     def __init__(self, dbpath=None):
+        # if not specify, store db in memory
+        # WARNING! volatile
         if dbpath is None:
-            self.dbpath = ':memory:'  # in memory
+            self.dbpath = ':memory:'
         else:
             self.dbpath = dbpath
         self.conn = sqlite3.connect(self.dbpath)
@@ -70,7 +72,7 @@ class BaseSdb:
         
     
     # not working yet
-    def read_dict(self, table, row=6):
+    def read_records_dict(self, table, row=6):
         '''
         read single record
         improved security with sqlite placeholder
@@ -97,7 +99,8 @@ class BaseSdb:
                 ret = None
         
         return ret
-
+    
+    # old method
     def read_records(self, table, where=None, limit=0, offset=0, orderby=None, columns=None):
         '''
         NOT SAVE, might have SQL INJECTION risk
@@ -150,14 +153,12 @@ class BaseSdb:
         '''
         table = self.scrub(table)
         
-        placeholders = '('
+        placeholdersStr = '('
         for i in range(len(listData)):
-            placeholders += '?,'
-        placeholders = placeholders[:-1] + ')'
+            placeholdersStr += '?,'
+        placeholdersStr = placeholdersStr[:-1] + ')'
         
-        sql = "INSERT INTO %s VALUES" % table + placeholders
-        print sql
-        print listData
+        sql = "INSERT INTO %s VALUES" % table + placeholdersStr
         
         cursor = self.conn.cursor()
         cursor.execute(sql, listData)
@@ -173,7 +174,6 @@ class BaseSdb:
         for dataKey, dataValue in dictData.iteritems():
             key.append(dataKey)
             value.append(dataValue) 
-        
 
     # old
     def exec_sql(self, cursor, sql):
