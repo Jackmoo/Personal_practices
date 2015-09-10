@@ -20,7 +20,6 @@ class BaseSdb(object):
     def check_table_exist(self, table):
         sql = "SELECT name from sqlite_master WHERE type='table' AND name=?"
         cursor = self.conn.cursor()
-        print sql
         cursor.execute(sql, [table])
         self.conn.commit()
         try:
@@ -66,7 +65,6 @@ class BaseSdb(object):
         sql = "CREATE TABLE %s(%s)" % (tableName, formatStr)
         
         cursor = self.conn.cursor()
-        print sql
         cursor.execute(sql)
         self.conn.commit()
         
