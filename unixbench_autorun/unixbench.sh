@@ -5,7 +5,7 @@
 #       Author: Teddysun <i@teddysun.com>                      #
 #       Intro:  https://teddysun.com/245.html                  #
 #==============================================================#
-cur_dir=/opt/unixbench
+cur_dir=./unixbench_src
 
 # Check System
 [[ $EUID -ne 0 ]] && echo 'Error: This script must be run as root!' && exit 1
